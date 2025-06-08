@@ -5,6 +5,13 @@ const PUBLIC_ROUTES = ["/", "/marketing"];
 const AUTH_ROUTES = ["/auth"];
 const PROTECTED_PREFIX = "/app";
 
+// Fungsi dummy untuk pengecekan login (ganti sesuai logika kamu)
+function checkLoginStatus(req: NextRequest): boolean {
+  // Contoh: Cek cookie "token"
+  const token = req.cookies.get("token");
+  return !!token;
+}
+
 export function middleware(req: NextRequest) {
   const { pathname } = req.nextUrl;
 
@@ -12,8 +19,7 @@ export function middleware(req: NextRequest) {
   const isAuth = AUTH_ROUTES.some((route) => pathname.startsWith(route));
   const isProtected = pathname.startsWith(PROTECTED_PREFIX);
 
-  // Simulasi pengecekan login (ganti dengan session check atau cookie check)
-  const isLoggedIn = false; // Ganti ini sesuai logikamu
+  const isLoggedIn = checkLoginStatus(req);
 
   if (isPublic) {
     return NextResponse.next();
